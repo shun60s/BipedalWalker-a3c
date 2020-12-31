@@ -1,0 +1,82 @@
+# OpenAI Gym BipedalWalker-v2
+
+## 概要  
+
+強化学習の[RL A3C Pytorch Continuous](https://github.com/dgriff777/a3c_continuous/)で、
+OpenAI Gym のBipedalWalker-v2を解いたもの。  
+このrepositoryの中に２足歩行するBipedalWalkerHardcore-v2の重みファイルが公開されているが、
+BipedalWalker-v2は存在しないため、それを求めたもの。  
+observationを使わないで高得点を上げている例や１本立ち歩行の例もあるが、
+LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
+
+
+
+## 使い方  
+
+オリジナルの説明文 README_a3c_continous.md を参照のこと。   
+自動で終了しないので、画面のLOG出力を見ながら適当なところでctrl-Cキーで強制終了させる。  
+
+
+
+オリジナルの設定のBipedalWalker-v2を学習する。　数時間ぐらいかけた。  
+```
+python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --stack-frames 1
+```
+
+学習した重みファイルを使ってBipedalWalker-v2を動かす。  
+```
+python gym_eval.py --env BipedalWalker-v2 --num-episodes 100 --stack-frames 1 --model MLP --new-gym-eval True
+```
+
+BipedalWalkerHardcore-v2の重みファイルを使ってBipedalWalker-v2を動かす。  
+```
+python gym_eval.py --env BipedalWalkerHardcore-v2 --num-episodes 100 --stack-frames 4 --model CONV --new-gym-eval True
+```
+
+１つ前と現在の２つのobservationを使って学習する。  
+```
+python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --stack-frames 2
+```
+
+
+
+## 主な変更点  
+
+- model.pyの中にLSTMのないMLPで学習する設定を追加。  
+- 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
+
+
+
+## 動作環境  
+
+現在のBipedalWalkerのバージョンは３であるが、古いバージョン２を使っている。  
+only-CPU  
+
+- Ubuntu 18.04 LTS
+- python 2.7.17
+- torch==1.5.0+cpu
+- torchvision==0.5.0+cpu
+- torchaudio==0.4.0
+- numpy==1.16.6
+- gym==0.10.11
+- Box2D==2.3.2
+- pyglet==1.3.2
+- pyyaml==3.12
+- setproctitle==1.1.10
+- typing==3.7.4.3
+
+
+
+### trained_models   
+
+BipedalWalker-v2.dat　オリジナルの設定で学習した重みファイル  
+BipedalWalker-v2_withoutLSTM.dat　LSTMのないMLPで学習した重みファイル  
+BipedalWalker-v2_stackframe2.dat　stack_frame=2で学習した重みファイル  
+BipedalWalkerHardcore-v2.dat　オリジナルからcloneした重みファイル  
+
+BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
+
+## ライセンス  
+Apache License 2.0  
+オリジナルのライセンス文 LICENSE_ac3_continous.MD を参照のこと。   
+
