@@ -28,9 +28,15 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 python gym_eval.py --env BipedalWalker-v2 --num-episodes 100 --stack-frames 1 --model MLP --new-gym-eval True
 ```
 
-BipedalWalkerHardcore-v2の重みファイルを使ってBipedalWalker-v2を動かす。  
+学習した重みファイルを再ロードして、学習を続ける。  
 ```
-python gym_eval.py --env BipedalWalkerHardcore-v2 --num-episodes 100 --stack-frames 4 --model CONV --new-gym-eval True
+python main.py --workers 6 --env BipedalWalker-v2 --load True --save-max True --model MLP --stack-frames 1
+```
+
+
+BipedalWalkerHardcore-v2の重みファイル(CONV1Dモデル, stack-frames 4)を使ってBipedalWalker-v2を動かす。BipedalWalkerHardcore-v2.datをBipedalWalker-v2.datとして上書きしておく。  
+```
+python gym_eval.py --env BipedalWalker-v2 --num-episodes 100 --stack-frames 4 --model CONV --new-gym-eval True
 ```
 
 １つ前と現在の２つのobservationを使って学習する。  
@@ -50,7 +56,8 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 ## 動作環境  
 
 現在のBipedalWalkerのバージョンは３であるが、古いバージョン２を使っている。  
-only-CPU  
+CPUのみ。  
+
 
 - Ubuntu 18.04 LTS
 - python 2.7.17
