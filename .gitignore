@@ -3,6 +3,8 @@
 /logs/
 /trained_models_all/
 /BipedalWalker-v2_monitor-all/
+/trained_models/
+/BipedalWalker-v2_monitor/
 *.bat
 *.txt
 *.pyc
