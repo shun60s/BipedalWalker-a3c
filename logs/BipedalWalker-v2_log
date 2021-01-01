@@ -1,0 +1,56 @@
+2021-01-01 10:21:24,988 : load: True
+2021-01-01 10:21:24,989 : tau: 1.0
+2021-01-01 10:21:24,989 : stack_frames: 1
+2021-01-01 10:21:24,989 : optimizer: Adam
+2021-01-01 10:21:24,989 : amsgrad: True
+2021-01-01 10:21:24,989 : max_episode_length: 10000
+2021-01-01 10:21:24,989 : workers: 6
+2021-01-01 10:21:24,989 : save_model_dir: trained_models/
+2021-01-01 10:21:24,989 : num_steps: 20
+2021-01-01 10:21:24,989 : save_max: True
+2021-01-01 10:21:24,989 : seed: 1
+2021-01-01 10:21:24,989 : lr: 0.0001
+2021-01-01 10:21:24,989 : log_dir: logs/
+2021-01-01 10:21:24,989 : env: BipedalWalker-v2
+2021-01-01 10:21:24,989 : shared_optimizer: True
+2021-01-01 10:21:24,990 : load_model_dir: trained_models/
+2021-01-01 10:21:24,990 : model: MLP
+2021-01-01 10:21:24,990 : gpu_ids: [-1]
+2021-01-01 10:21:24,990 : gamma: 0.99
+2021-01-01 10:21:25,742 : Time 00h 00m 00s, episode reward 63.0098591239, episode length 482, reward mean 63.0099
+2021-01-01 10:21:25,742 : Time 00h 00m 00s  state_to_save
+2021-01-01 10:22:27,920 : Time 00h 01m 02s, episode reward 310.24147351, episode length 969, reward mean 186.6257
+2021-01-01 10:22:27,920 : Time 00h 01m 02s  state_to_save
+2021-01-01 10:23:29,124 : Time 00h 02m 04s, episode reward 93.740566835, episode length 648, reward mean 155.6640
+2021-01-01 10:24:30,992 : Time 00h 03m 05s, episode reward 315.369256551, episode length 928, reward mean 195.5903
+2021-01-01 10:24:31,001 : Time 00h 03m 05s  state_to_save
+2021-01-01 10:25:32,845 : Time 00h 04m 07s, episode reward 316.258491419, episode length 879, reward mean 219.7239
+2021-01-01 10:25:32,845 : Time 00h 04m 07s  state_to_save
+2021-01-01 10:26:34,955 : Time 00h 05m 09s, episode reward 312.257352147, episode length 983, reward mean 235.1462
+2021-01-01 10:27:36,538 : Time 00h 06m 11s, episode reward 76.7311614282, episode length 521, reward mean 212.5155
+2021-01-01 10:28:38,958 : Time 00h 07m 13s, episode reward 319.259742351, episode length 923, reward mean 225.8585
+2021-01-01 10:28:38,958 : Time 00h 07m 13s  state_to_save
+2021-01-01 10:29:41,329 : Time 00h 08m 16s, episode reward 318.990443472, episode length 870, reward mean 236.2065
+2021-01-01 10:30:43,452 : Time 00h 09m 18s, episode reward 314.412308899, episode length 944, reward mean 244.0271
+2021-01-01 10:31:45,672 : Time 00h 10m 20s, episode reward 313.774356606, episode length 1007, reward mean 250.3677
+2021-01-01 10:32:47,505 : Time 00h 11m 22s, episode reward 305.976407547, episode length 924, reward mean 255.0018
+2021-01-01 10:33:49,981 : Time 00h 12m 24s, episode reward 313.118049055, episode length 927, reward mean 259.4723
+2021-01-01 10:34:51,150 : Time 00h 13m 26s, episode reward 54.8898626736, episode length 517, reward mean 244.8592
+2021-01-01 10:35:52,860 : Time 00h 14m 27s, episode reward 65.1605006039, episode length 542, reward mean 232.8793
+2021-01-01 10:36:55,502 : Time 00h 15m 30s, episode reward 307.851656976, episode length 972, reward mean 237.5651
+2021-01-01 10:37:57,658 : Time 00h 16m 32s, episode reward 313.716379609, episode length 901, reward mean 242.0446
+2021-01-01 10:39:00,674 : Time 00h 17m 35s, episode reward 313.509672295, episode length 1107, reward mean 246.0149
+2021-01-01 10:40:02,588 : Time 00h 18m 37s, episode reward 312.785606808, episode length 954, reward mean 249.5291
+2021-01-01 10:41:04,711 : Time 00h 19m 39s, episode reward 314.95774803, episode length 980, reward mean 252.8005
+2021-01-01 10:42:06,596 : Time 00h 20m 41s, episode reward 316.71919008, episode length 905, reward mean 255.8443
+2021-01-01 10:43:08,958 : Time 00h 21m 43s, episode reward 316.526542187, episode length 906, reward mean 258.6026
+2021-01-01 10:44:10,291 : Time 00h 22m 45s, episode reward 97.916109886, episode length 537, reward mean 251.6162
+2021-01-01 10:45:11,741 : Time 00h 23m 46s, episode reward 200.334757306, episode length 815, reward mean 249.4795
+2021-01-01 10:46:12,751 : Time 00h 24m 47s, episode reward 57.5616628335, episode length 464, reward mean 241.8028
+2021-01-01 10:47:14,881 : Time 00h 25m 49s, episode reward 314.973784682, episode length 956, reward mean 244.6170
+2021-01-01 10:48:16,129 : Time 00h 26m 51s, episode reward 61.4193554757, episode length 547, reward mean 237.8319
+2021-01-01 10:49:18,363 : Time 00h 27m 53s, episode reward 313.527199928, episode length 1032, reward mean 240.5353
+2021-01-01 10:50:20,327 : Time 00h 28m 55s, episode reward 195.068286677, episode length 938, reward mean 238.9675
+2021-01-01 10:51:22,553 : Time 00h 29m 57s, episode reward 315.161521409, episode length 905, reward mean 241.5073
+2021-01-01 10:52:23,424 : Time 00h 30m 58s, episode reward -18.4533298621, episode length 262, reward mean 233.1215
+2021-01-01 10:53:25,006 : Time 00h 31m 59s, episode reward 315.251961317, episode length 866, reward mean 235.6881

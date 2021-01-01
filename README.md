@@ -75,6 +75,10 @@ CPUのみ。
 
 
 
+また、Google colab上で実行するスクリプトを作ってみた。  
+[BipedalWalker_v2_Colab.ipynb](https://colab.research.google.com/github/shun60s/BipedalWalker-a3c_continuous-clone/Bblob/master/BipedalWalker_v2_Colab.ipynb)  
+
+
 ### trained_models   
 
 BipedalWalker-v2.dat　オリジナルの設定で学習した重みファイル  
