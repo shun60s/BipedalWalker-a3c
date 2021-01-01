@@ -50,7 +50,7 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
 - test.py 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
-- shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。(first commit後の変更)  
+- shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。  
 
 
 
