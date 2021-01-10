@@ -1,0 +1,112 @@
+2021-01-10 15:32:39,336 : num_episodes: 100
+2021-01-10 15:32:39,336 : render: False
+2021-01-10 15:32:39,336 : max_episode_length: 100000
+2021-01-10 15:32:39,336 : gpu_id: -1
+2021-01-10 15:32:39,336 : seed: 1
+2021-01-10 15:32:39,337 : log_dir: logs/
+2021-01-10 15:32:39,337 : env: BipedalWalker-v2
+2021-01-10 15:32:39,337 : stack_frames: 4
+2021-01-10 15:32:39,337 : load_model_dir: trained_models/
+2021-01-10 15:32:39,337 : model: CONV
+2021-01-10 15:32:39,337 : render_freq: 1
+2021-01-10 15:32:39,337 : new_gym_eval: True
+2021-01-10 15:33:03,831 : Episode_length, 658, reward_sum, 329.754279895, reward_mean, 329.7543
+2021-01-10 15:33:29,688 : Episode_length, 655, reward_sum, 329.627642378, reward_mean, 329.6910
+2021-01-10 15:33:30,449 : Episode_length, 653, reward_sum, 329.400093258, reward_mean, 329.5940
+2021-01-10 15:33:31,141 : Episode_length, 653, reward_sum, 330.14278478, reward_mean, 329.7312
+2021-01-10 15:33:31,824 : Episode_length, 647, reward_sum, 330.361573239, reward_mean, 329.8573
+2021-01-10 15:33:32,518 : Episode_length, 655, reward_sum, 331.073080825, reward_mean, 330.0599
+2021-01-10 15:33:33,205 : Episode_length, 652, reward_sum, 330.276658405, reward_mean, 330.0909
+2021-01-10 15:33:33,893 : Episode_length, 651, reward_sum, 329.957198419, reward_mean, 330.0742
+2021-01-10 15:33:58,594 : Episode_length, 656, reward_sum, 329.198730567, reward_mean, 329.9769
+2021-01-10 15:33:59,357 : Episode_length, 651, reward_sum, 329.812970724, reward_mean, 329.9605
+2021-01-10 15:34:00,057 : Episode_length, 651, reward_sum, 329.92566315, reward_mean, 329.9573
+2021-01-10 15:34:00,750 : Episode_length, 652, reward_sum, 330.312463699, reward_mean, 329.9869
+2021-01-10 15:34:01,440 : Episode_length, 650, reward_sum, 329.359198897, reward_mean, 329.9386
+2021-01-10 15:34:02,135 : Episode_length, 655, reward_sum, 329.821909589, reward_mean, 329.9303
+2021-01-10 15:34:02,827 : Episode_length, 653, reward_sum, 330.116792689, reward_mean, 329.9427
+2021-01-10 15:34:03,519 : Episode_length, 652, reward_sum, 330.379406151, reward_mean, 329.9700
+2021-01-10 15:34:04,216 : Episode_length, 656, reward_sum, 330.47585093, reward_mean, 329.9998
+2021-01-10 15:34:04,915 : Episode_length, 659, reward_sum, 329.346046421, reward_mean, 329.9635
+2021-01-10 15:34:05,605 : Episode_length, 652, reward_sum, 330.391941123, reward_mean, 329.9860
+2021-01-10 15:34:06,293 : Episode_length, 650, reward_sum, 329.02699844, reward_mean, 329.9381
+2021-01-10 15:34:06,989 : Episode_length, 657, reward_sum, 330.219435279, reward_mean, 329.9515
+2021-01-10 15:34:07,680 : Episode_length, 652, reward_sum, 329.482286638, reward_mean, 329.9301
+2021-01-10 15:34:08,369 : Episode_length, 651, reward_sum, 329.563544543, reward_mean, 329.9142
+2021-01-10 15:34:09,062 : Episode_length, 655, reward_sum, 328.599140026, reward_mean, 329.8594
+2021-01-10 15:34:09,752 : Episode_length, 652, reward_sum, 329.529798839, reward_mean, 329.8462
+2021-01-10 15:34:10,448 : Episode_length, 656, reward_sum, 329.754628625, reward_mean, 329.8427
+2021-01-10 15:34:11,135 : Episode_length, 650, reward_sum, 330.60004519, reward_mean, 329.8707
+2021-01-10 15:34:33,747 : Episode_length, 655, reward_sum, 329.524802007, reward_mean, 329.8584
+2021-01-10 15:34:34,494 : Episode_length, 648, reward_sum, 330.012073767, reward_mean, 329.8637
+2021-01-10 15:34:35,189 : Episode_length, 654, reward_sum, 330.402693053, reward_mean, 329.8817
+2021-01-10 15:34:35,915 : Episode_length, 652, reward_sum, 330.145373992, reward_mean, 329.8902
+2021-01-10 15:34:36,634 : Episode_length, 649, reward_sum, 328.9934702, reward_mean, 329.8621
+2021-01-10 15:34:37,346 : Episode_length, 653, reward_sum, 330.18027232, reward_mean, 329.8718
+2021-01-10 15:34:38,043 : Episode_length, 655, reward_sum, 330.130689136, reward_mean, 329.8794
+2021-01-10 15:34:38,733 : Episode_length, 652, reward_sum, 330.150330319, reward_mean, 329.8871
+2021-01-10 15:34:39,421 : Episode_length, 650, reward_sum, 329.409335312, reward_mean, 329.8739
+2021-01-10 15:34:40,106 : Episode_length, 649, reward_sum, 330.304446995, reward_mean, 329.8855
+2021-01-10 15:34:40,788 : Episode_length, 645, reward_sum, 329.745445226, reward_mean, 329.8818
+2021-01-10 15:34:41,480 : Episode_length, 655, reward_sum, 329.154388012, reward_mean, 329.8632
+2021-01-10 15:34:42,172 : Episode_length, 655, reward_sum, 329.679712954, reward_mean, 329.8586
+2021-01-10 15:34:42,859 : Episode_length, 651, reward_sum, 330.163160782, reward_mean, 329.8660
+2021-01-10 15:34:43,560 : Episode_length, 663, reward_sum, 329.205688514, reward_mean, 329.8503
+2021-01-10 15:34:44,240 : Episode_length, 644, reward_sum, 329.783899632, reward_mean, 329.8487
+2021-01-10 15:34:44,924 : Episode_length, 650, reward_sum, 329.392868352, reward_mean, 329.8384
+2021-01-10 15:34:45,607 : Episode_length, 645, reward_sum, 330.529287519, reward_mean, 329.8537
+2021-01-10 15:34:46,298 : Episode_length, 652, reward_sum, 329.538382708, reward_mean, 329.8469
+2021-01-10 15:34:46,996 : Episode_length, 659, reward_sum, 329.946780349, reward_mean, 329.8490
+2021-01-10 15:34:47,690 : Episode_length, 655, reward_sum, 329.615778862, reward_mean, 329.8441
+2021-01-10 15:34:48,377 : Episode_length, 650, reward_sum, 329.988736154, reward_mean, 329.8471
+2021-01-10 15:34:49,064 : Episode_length, 649, reward_sum, 330.199375927, reward_mean, 329.8541
+2021-01-10 15:34:49,753 : Episode_length, 651, reward_sum, 330.75738782, reward_mean, 329.8719
+2021-01-10 15:34:50,440 : Episode_length, 648, reward_sum, 329.873736244, reward_mean, 329.8719
+2021-01-10 15:34:51,131 : Episode_length, 653, reward_sum, 329.871442107, reward_mean, 329.8719
+2021-01-10 15:34:51,816 : Episode_length, 648, reward_sum, 330.342290744, reward_mean, 329.8806
+2021-01-10 15:34:52,508 : Episode_length, 654, reward_sum, 330.095768316, reward_mean, 329.8845
+2021-01-10 15:34:53,194 : Episode_length, 649, reward_sum, 330.534705327, reward_mean, 329.8961
+2021-01-10 15:34:53,888 : Episode_length, 656, reward_sum, 330.888234589, reward_mean, 329.9135
+2021-01-10 15:34:54,573 : Episode_length, 649, reward_sum, 330.101361219, reward_mean, 329.9168
+2021-01-10 15:34:55,266 : Episode_length, 653, reward_sum, 328.852724742, reward_mean, 329.8987
+2021-01-10 15:34:55,956 : Episode_length, 652, reward_sum, 329.847565514, reward_mean, 329.8979
+2021-01-10 15:34:56,643 : Episode_length, 649, reward_sum, 329.393559256, reward_mean, 329.8896
+2021-01-10 15:34:57,334 : Episode_length, 654, reward_sum, 329.985281406, reward_mean, 329.8911
+2021-01-10 15:34:58,023 : Episode_length, 651, reward_sum, 329.741745838, reward_mean, 329.8888
+2021-01-10 15:34:58,712 : Episode_length, 652, reward_sum, 329.451021342, reward_mean, 329.8819
+2021-01-10 15:35:21,934 : Episode_length, 650, reward_sum, 329.901675073, reward_mean, 329.8822
+2021-01-10 15:35:22,698 : Episode_length, 653, reward_sum, 328.841428053, reward_mean, 329.8665
+2021-01-10 15:35:23,396 : Episode_length, 649, reward_sum, 329.85423513, reward_mean, 329.8663
+2021-01-10 15:35:24,134 : Episode_length, 654, reward_sum, 329.816543423, reward_mean, 329.8656
+2021-01-10 15:35:24,867 : Episode_length, 654, reward_sum, 328.933342089, reward_mean, 329.8520
+2021-01-10 15:35:25,582 : Episode_length, 648, reward_sum, 329.964454593, reward_mean, 329.8537
+2021-01-10 15:35:26,273 : Episode_length, 647, reward_sum, 329.137403557, reward_mean, 329.8436
+2021-01-10 15:35:26,968 : Episode_length, 656, reward_sum, 329.353886322, reward_mean, 329.8368
+2021-01-10 15:35:27,673 : Episode_length, 651, reward_sum, 329.52474394, reward_mean, 329.8325
+2021-01-10 15:35:28,372 : Episode_length, 653, reward_sum, 330.080869024, reward_mean, 329.8358
+2021-01-10 15:35:29,069 : Episode_length, 650, reward_sum, 330.305337061, reward_mean, 329.8421
+2021-01-10 15:35:29,761 : Episode_length, 649, reward_sum, 329.86956204, reward_mean, 329.8425
+2021-01-10 15:35:30,450 : Episode_length, 650, reward_sum, 329.712775009, reward_mean, 329.8408
+2021-01-10 15:35:31,138 : Episode_length, 650, reward_sum, 329.764560682, reward_mean, 329.8398
+2021-01-10 15:35:31,827 : Episode_length, 650, reward_sum, 329.697980274, reward_mean, 329.8380
+2021-01-10 15:35:32,517 : Episode_length, 650, reward_sum, 330.103148353, reward_mean, 329.8413
+2021-01-10 15:35:33,207 : Episode_length, 652, reward_sum, 330.087407004, reward_mean, 329.8444
+2021-01-10 15:35:33,892 : Episode_length, 649, reward_sum, 329.702777499, reward_mean, 329.8426
+2021-01-10 15:35:34,587 : Episode_length, 656, reward_sum, 330.373794664, reward_mean, 329.8490
+2021-01-10 15:35:35,275 : Episode_length, 650, reward_sum, 330.396540474, reward_mean, 329.8556
+2021-01-10 15:35:35,964 : Episode_length, 650, reward_sum, 330.652906006, reward_mean, 329.8649
+2021-01-10 15:35:36,650 : Episode_length, 646, reward_sum, 329.988923689, reward_mean, 329.8664
+2021-01-10 15:35:37,348 : Episode_length, 656, reward_sum, 329.593013871, reward_mean, 329.8632
+2021-01-10 15:35:38,041 : Episode_length, 654, reward_sum, 329.938926005, reward_mean, 329.8641
+2021-01-10 15:35:38,730 : Episode_length, 649, reward_sum, 330.270309716, reward_mean, 329.8687
+2021-01-10 15:35:39,422 : Episode_length, 651, reward_sum, 329.111541297, reward_mean, 329.8602
+2021-01-10 15:35:40,114 : Episode_length, 652, reward_sum, 330.044258607, reward_mean, 329.8623
+2021-01-10 15:35:40,815 : Episode_length, 658, reward_sum, 329.124358185, reward_mean, 329.8542
+2021-01-10 15:35:41,514 : Episode_length, 658, reward_sum, 329.648431707, reward_mean, 329.8520
+2021-01-10 15:35:42,209 : Episode_length, 654, reward_sum, 329.348483971, reward_mean, 329.8467
+2021-01-10 15:35:42,899 : Episode_length, 650, reward_sum, 329.991236055, reward_mean, 329.8482
+2021-01-10 15:35:43,586 : Episode_length, 648, reward_sum, 329.813122091, reward_mean, 329.8478
+2021-01-10 15:35:44,274 : Episode_length, 649, reward_sum, 329.628366354, reward_mean, 329.8456
+2021-01-10 15:35:44,976 : Episode_length, 663, reward_sum, 329.047665957, reward_mean, 329.8374
+2021-01-10 15:35:45,677 : Episode_length, 659, reward_sum, 329.491824816, reward_mean, 329.8339
+2021-01-10 15:35:46,368 : Episode_length, 647, reward_sum, 329.512673972, reward_mean, 329.8307
