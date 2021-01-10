@@ -8,7 +8,7 @@ OpenAI Gym のBipedalWalker-v2を解いたもの。
 BipedalWalker-v2は存在しないため、それを求めたもの。  
 observationを使わないで高得点を上げている例や１本立ち歩行の例もあるが、
 LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
-2本足を交互に使って歩くと言う意味では、HardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
+2本足を交互に使って歩くと言う意味では、BipedalWalkerHardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
 
 
 
@@ -93,7 +93,7 @@ BipedalWalker-v2.dat　オリジナルの設定で学習した重みファイル
 BipedalWalker-v2_withoutLSTM.dat　LSTMのないMLPで学習した重みファイル  
 BipedalWalker-v2_stackframe2.dat　stack_frame=2で学習した重みファイル  
 BipedalWalkerHardcore-v2.dat　オリジナルからcloneした重みファイル  
-BipedalWalker-v2_trained_using_Hardcore_dat.dat 上記のHardcoreのモデルを、更にBipedalWalker環境で学習させたもの。これが2本足を交互に使って走るという意味では、これが一番、良かった。  
+BipedalWalker-v2_trained_using_Hardcore_dat.dat 上記のBipedalWalkerHardcoreのモデルを、更にBipedalWalker環境で学習させたもの。これが2本足を交互に使って走るという意味では、これが一番、良かった。  
 ![BipedalWalker-v2_trained_using_Hardcore_dat  mp4 sample](https://user-images.githubusercontent.com/36104188/104119919-48597280-5376-11eb-8ed5-e77576a5ad12.mp4)  
 2本足を使って歩くには、環境（Hardcoreの落とし穴のような1本歩行では不可能な環境）とそれなりのDNNの構成(MLPだけでは2本足で交互に歩くは不可なのか？)が揃わないといけないのかもしれない。  
 
