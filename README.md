@@ -35,13 +35,14 @@ python main.py --workers 6 --env BipedalWalker-v2 --load True --save-max True --
 ```
 
 
-BipedalWalkerHardcore-v2の重みファイル(CONV1Dモデル, stack-frames 4)を使ってBipedalWalker-v2を動かす。BipedalWalkerHardcore-v2.datをBipedalWalker-v2.datとして上書きしておくこと。  
+BipedalWalkerHardcore-v2の重みファイル(CONV1Dモデル, stack-frames 4)を使ってBipedalWalker-v2を動かす。  
+trained_modelsの中のBipedalWalkerHardcore-v2.datをBipedalWalker-v2.datとして上書きしておくこと。  
 ```
 python gym_eval.py --env BipedalWalker-v2 --num-episodes 100 --stack-frames 4 --model CONV --new-gym-eval True
 ```
 
-BipedalWalkerHardcore-v2の重みファイル(CONV1Dモデル, stack-frames 4)を使ってBipedalWalker-v2を学習する。2-3時間ぐらいかけた。  
-。BipedalWalkerHardcore-v2.datをBipedalWalker-v2.datとして上書きしておくこと。  
+BipedalWalkerHardcore-v2の重みファイル(CONV1Dモデル, stack-frames 4)を使ってBipedalWalker-v2を学習する。2時間半ぐらいかけた。  
+trained_modelsの中のBipedalWalkerHardcore-v2.datをBipedalWalker-v2.datとして上書きしておくこと。  
 ```
 python main.py --workers 6 --env BipedalWalker-v2 --load True --save-max True --model CONV --stack-frames 4
 ```
