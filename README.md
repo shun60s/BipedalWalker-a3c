@@ -96,7 +96,7 @@ BipedalWalker-v2_stackframe2.dat　stack_frame=2で学習した重みファイ�
 BipedalWalkerHardcore-v2.dat　オリジナルからcloneした重みファイル  
 BipedalWalker-v2_trained_using_Hardcore_dat.dat 上記のBipedalWalkerHardcoreのモデルを、更にBipedalWalker環境で学習させたもの。これが2本足を交互に使って走るという意味では、これが一番、良かった。  
 ![BipedalWalker-v2_trained_using_Hardcore_dat  mp4 sample](https://user-images.githubusercontent.com/36104188/104119919-48597280-5376-11eb-8ed5-e77576a5ad12.mp4)  
-2本足を使って歩くには、環境（Hardcoreの落とし穴のような1本歩行では不可能な環境）とそれなりのDNNの構成(MLPだけでは2本足で交互に歩くは不可なのか？)が揃わないといけないのかもしれない。  
+2本足を交互に使って歩くには、環境（Hardcoreの落とし穴のような1本歩行では不可能な環境）が揃わないといけないのかもしれない。  
 
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
 
