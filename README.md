@@ -54,13 +54,18 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 ```
 
 
+Hardcoreの中でstump切り株だけのカスタム環境を使って学習する。  
+```
+python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model MLP --stack-frames 1
+```
+
 
 ## 主な変更点  
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
 - test.py 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
 - shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。  
-
+- custom_env  Hardcoreの中で、stump切り株だけ、pit落とし穴だけ、stairs階段だけ、のカスタム環境。  
 
 
 ## 動作環境  
@@ -68,18 +73,16 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 現在のBipedalWalkerのバージョンは３であるが、古いバージョン２を使っている。  
 CPUのみ。  
 
-
-- Ubuntu 18.04 LTS
-- python 2.7.17
-- torch==1.5.0+cpu
-- torchvision==0.5.0+cpu
-- torchaudio==0.4.0
-- numpy==1.16.6
-- gym==0.10.11
-- Box2D==2.3.2
-- pyglet==1.3.2
+- python 3.6.4 on win32 (Windows 10)
+- torch==1.7.1+cpu
+- torchvision==0.8.2+cpu
+- torchaudio==0.7.2
+- numpy==1.18.4
+- gym==0.15.3
+- Box2d-py==2.3.8
+- pyglet==1.2.1
 - pyyaml==3.12
-- setproctitle==1.1.10
+- setproctitle==1.2.1
 - typing==3.7.4.3
 
 
@@ -104,4 +107,5 @@ BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した�
 ## ライセンス  
 Apache License 2.0  
 オリジナルのライセンス文 LICENSE_ac3_continous.MD を参照のこと。   
+カスタム環境についてはライセンス文 custom_env/LICENSE-OpenAI_gym.md を参照のこと。   
 

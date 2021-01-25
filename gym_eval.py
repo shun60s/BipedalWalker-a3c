@@ -30,6 +30,7 @@ from torch.autograd import Variable
 import gym
 import logging
 
+from gym.wrappers.monitor import Monitor  # add to use custom env
 
 parser = argparse.ArgumentParser(description='A3C_EVAL')
 parser.add_argument(

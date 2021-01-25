@@ -18,9 +18,11 @@
 -----------------------------------------------------------------------------
 Changed:
         Add PassThr():
+        Add custom env
 """
 
 from __future__ import division
+import custom_env  # add
 import gym
 import numpy as np
 from collections import deque

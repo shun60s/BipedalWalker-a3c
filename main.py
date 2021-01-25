@@ -15,7 +15,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -----------------------------------------------------------------------------
-
+Changed:
+    Add args.save last
 """
 
 
@@ -96,6 +97,11 @@ parser.add_argument(
     default=True,
     metavar='SM',
     help='Save model on every test run high score matched or bested')
+parser.add_argument(
+    '--save-last',
+    default=False,
+    metavar='SM',
+    help='Save last model on every test')
 parser.add_argument(
     '--optimizer',
     default='Adam',
