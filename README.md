@@ -56,7 +56,7 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --
 
 Hardcoreの中でstump切り株だけのカスタム環境を使って学習する。  
 ```
-python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model MLP --stack-frames 1
+python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model MLP --stack-frames 1  --max-episode-length 4000
 ```
 
 
