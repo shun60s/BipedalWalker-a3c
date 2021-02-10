@@ -18,6 +18,7 @@
 Changed:
        Add state_to_save message.
        Add args.save last
+       Add CONV3_Net
 """
 
 from __future__ import division
@@ -26,7 +27,7 @@ import numpy as np
 import torch
 from environment import create_env
 from utils import setup_logger
-from model import A3C_CONV, A3C_MLP
+from model import *  # change to import any models
 from player_util import Agent
 from torch.autograd import Variable
 import time
@@ -61,7 +62,9 @@ def test(args, shared_model):
             player.env.observation_space.shape[0], player.env.action_space, args.stack_frames)
     if args.model == 'CONV':
         player.model = A3C_CONV(args.stack_frames, player.env.action_space)
-
+    if args.model == 'CONV3':
+        player.model = CONV3_Net(args.stack_frames, player.env.action_space)
+    
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
     if gpu_id >= 0:

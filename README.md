@@ -9,6 +9,7 @@ BipedalWalker-v2は存在しないため、それを求めたもの。
 observationを使わないで高得点を上げている例や１本立ち歩行の例もあるが、
 LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
 2本足を交互に使って歩くと言う意味では、BipedalWalkerHardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
+胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使えば、障害物の環境がなくても、２本足を交互に使って歩くことができた。   
 
 
 
@@ -60,12 +61,18 @@ python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model 
 ```
 
 
+胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使ってBipedalWalker-v2を学習する。5時間ぐらいかけた。  
+```
+python main.py --workers 6 --env BipedalWalker-v2 --load True --save-max True --model CONV3 --stack-frames 4
+```
+
 ## 主な変更点  
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
 - test.py 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
 - shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。  
 - custom_env  Hardcoreの中で、stump切り株だけ、pit落とし穴だけ、stairs階段だけ、のカスタム環境。  
+- model.py 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを追加。  
 
 
 ## 動作環境  
@@ -105,8 +112,13 @@ BipedalWalkerStump1-v0.dat　stump切り株だけのカスタム環境を使っ�
 2本足を交互に使って歩くには、環境（Hardcoreのstump切り株状の障害物のように1本歩行では超えるのが難しい環境）が揃わないといけないようだ。  
 
 
+BipedalWalker-v2_CONV3_Net.dat　CONV3_Netで学習した重みファイル。障害物の環境がなくても、２本足を交互に使って歩くことができた。   
+
 
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
+
+
+
 
 
 ## ライセンス  

@@ -17,6 +17,8 @@
 -----------------------------------------------------------------------------
 Changed:
     Add args.save last
+    Add args.entropy, args.value
+    Add CONV3_Net
 """
 
 
@@ -27,7 +29,7 @@ import argparse
 import torch
 import torch.multiprocessing as mp
 from environment import create_env
-from model import A3C_MLP, A3C_CONV
+from model import *  # change to import any models
 from train import train
 from test import test
 from shared_optim import SharedRMSprop, SharedAdam
@@ -100,7 +102,7 @@ parser.add_argument(
 parser.add_argument(
     '--save-last',
     default=False,
-    metavar='SM',
+    metavar='SL',
     help='Save last model on every test')
 parser.add_argument(
     '--optimizer',
@@ -144,7 +146,18 @@ parser.add_argument(
     default=True,
     metavar='AM',
     help='Adam optimizer amsgrad parameter')
-
+parser.add_argument(
+    '--entropy',
+    type=float,
+    default=0.01,
+    metavar='EN',
+    help='entropy rate (default: 0.01)')
+parser.add_argument(
+    '--value',
+    type=float,
+    default=0.5,
+    metavar='VA',
+    help='value rate in Loss function (default: 0.5)')
 
 # Based on
 # https://github.com/pytorch/examples/tree/master/mnist_hogwild
@@ -166,6 +179,10 @@ if __name__ == '__main__':
             env.observation_space.shape[0], env.action_space, args.stack_frames)
     if args.model == 'CONV':
         shared_model = A3C_CONV(args.stack_frames, env.action_space)
+    if args.model == 'CONV3':
+        shared_model = CONV3_Net(args.stack_frames, env.action_space)
+
+
     if args.load:
         saved_state = torch.load('{0}{1}.dat'.format(
             args.load_model_dir, args.env), map_location=lambda storage, loc: storage)

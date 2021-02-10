@@ -15,7 +15,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -----------------------------------------------------------------------------
-
+Changed:
+    Add CONV3_Net
+    Add args.entropy, args.value
 """
 
 from __future__ import division
@@ -25,7 +27,7 @@ import torch
 import torch.optim as optim
 from environment import create_env
 from utils import ensure_shared_grads
-from model import A3C_CONV, A3C_MLP
+from model import *  # change to import any models
 from player_util import Agent
 from torch.autograd import Variable
 import gym
@@ -52,6 +54,8 @@ def train(rank, args, shared_model, optimizer):
             player.env.observation_space.shape[0], player.env.action_space, args.stack_frames)
     if args.model == 'CONV':
         player.model = A3C_CONV(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV3':
+        player.model = CONV3_Net(args.stack_frames, player.env.action_space)
 
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
@@ -59,6 +63,11 @@ def train(rank, args, shared_model, optimizer):
         with torch.cuda.device(gpu_id):
             player.state = player.state.cuda()
             player.model = player.model.cuda()
+
+    # 
+    ratio_entropy =args.entropy
+    ratio_value = args.value
+
     player.model.train()   # Sets the module in training mode.
     while True:
         if gpu_id >= 0:
@@ -100,7 +109,7 @@ def train(rank, args, shared_model, optimizer):
             R = torch.zeros(1, 1)
         if not player.done:
             state = player.state
-            if args.model == 'CONV':
+            if args.model == 'CONV' or args.model == 'CONV3':
                 state = state.unsqueeze(0)
            
             # value is critic
@@ -135,12 +144,12 @@ def train(rank, args, shared_model, optimizer):
             # Policy Loss is ....
             policy_loss = policy_loss - \
                 (player.log_probs[i].sum() * Variable(gae)) - \
-                (0.01 * player.entropies[i].sum())
+                (ratio_entropy * player.entropies[i].sum())
 
         player.model.zero_grad()
 
         # --- backward ---
-        (policy_loss + 0.5 * value_loss).backward()
+        (policy_loss + ratio_value * value_loss).backward()
         ensure_shared_grads(player.model, shared_model, gpu=gpu_id >= 0)
         optimizer.step()
         player.clear_actions()

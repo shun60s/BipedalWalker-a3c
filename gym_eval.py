@@ -15,6 +15,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -----------------------------------------------------------------------------
+Changed:
+    Add to use custom env
+    Add CONV3_Net
 
 """
 from __future__ import division
@@ -24,7 +27,7 @@ import argparse
 import torch
 from environment import create_env
 from utils import setup_logger
-from model import A3C_CONV, A3C_MLP
+from model import *  # change to import any models
 from player_util import Agent
 from torch.autograd import Variable
 import gym
@@ -78,7 +81,7 @@ parser.add_argument(
     type=int,
     default=1,
     metavar='SF',
-    help='Choose whether to stack observations')  #### LSTM no frame no kotoka???
+    help='Choose whether to stack observations')
 parser.add_argument(
     '--new-gym-eval',
     default=False,
@@ -128,6 +131,8 @@ if args.model == 'MLP':
     player.model = A3C_MLP(env.observation_space.shape[0], env.action_space, args.stack_frames)
 if args.model == 'CONV':
     player.model = A3C_CONV(args.stack_frames, env.action_space)
+if args.model == 'CONV3':
+    player.model = CONV3_Net(args.stack_frames, env.action_space)
 
 player.gpu_id = gpu_id
 if gpu_id >= 0:
