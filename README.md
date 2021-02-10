@@ -63,7 +63,7 @@ python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model 
 
 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使ってBipedalWalker-v2を学習する。5時間ぐらいかけた。  
 ```
-python main.py --workers 6 --env BipedalWalker-v2 --load True --save-max True --model CONV3 --stack-frames 4
+python main.py --workers 6 --env BipedalWalker-v2 --save-max True --save-last True --model CONV3 --stack-frames 4
 ```
 
 ## 主な変更点  
