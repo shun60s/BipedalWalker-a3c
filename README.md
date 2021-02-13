@@ -10,7 +10,7 @@ observationを使わないで高得点を上げている例や１本立ち歩行
 LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
 2本足を交互に使って歩くと言う意味では、BipedalWalkerHardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使えば、障害物の環境がなくても、２本足を交互に使って歩くことができた。   
-
+更に、入力の特徴量として、加速度（前回と今回の速度の差）を追加したものがCONV4_Netである。  
 
 
 ## 使い方  
@@ -72,7 +72,8 @@ python main.py --workers 6 --env BipedalWalker-v2 --save-max True --save-last Tr
 - test.py 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
 - shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。  
 - custom_env  Hardcoreの中で、stump切り株だけ、pit落とし穴だけ、stairs階段だけ、のカスタム環境。  
-- model.py 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを追加。  
+- model.py 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを追加。CONV3_Netの入力に加速度（前回と今回の速度の差）を追加したCONV4_Net。  
+
 
 
 ## 動作環境  
@@ -113,7 +114,7 @@ BipedalWalkerStump1-v0.dat　stump切り株だけのカスタム環境を使っ�
 
 
 BipedalWalker-v2_CONV3_Net.dat　CONV3_Netで学習した重みファイル。障害物の環境がなくても、２本足を交互に使って歩くことができた。   
-
+BipedalWalker-v2_CONV4_Net.dat　CONV3_Netの入力に加速度（前回と今回の速度の差）を追加したも。  
 
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
 
