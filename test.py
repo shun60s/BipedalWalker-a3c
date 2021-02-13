@@ -19,6 +19,7 @@ Changed:
        Add state_to_save message.
        Add args.save last
        Add CONV3_Net
+       Add CONV4_Net
 """
 
 from __future__ import division
@@ -64,7 +65,9 @@ def test(args, shared_model):
         player.model = A3C_CONV(args.stack_frames, player.env.action_space)
     if args.model == 'CONV3':
         player.model = CONV3_Net(args.stack_frames, player.env.action_space)
-    
+    if args.model == 'CONV4':
+        player.model = CONV4_Net(args.stack_frames, player.env.action_space)
+
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
     if gpu_id >= 0:

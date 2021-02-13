@@ -19,6 +19,7 @@
 Changed:
             Add LSTM_USE flag in A3C_MLP
             Add CONV3_Net
+            Add CONV4_Net
 
 """
 
@@ -163,7 +164,7 @@ class A3C_MLP(torch.nn.Module):
 
 
 #-------------------------------------------------------------------------
-# trial    new conv3
+# trial    conv3_net
 #          separate-inputs move,etc=>MLP and Lidar=>CNN1D 
 #         
 #
@@ -294,4 +295,153 @@ class CONV3_Net(torch.nn.Module):
         x = hx1
         
         return self.critic_linear(x), F.softsign(self.actor_linear(x)), self.actor_linear2(x), (hx1, cx1)
+
+#-------------------------------------------------------------------------
+# trial5   conv3_netに入力特徴量に加速度(前回と今回の速度の差)を追加したもの
+#          separate-inputs move,etc=>MLP and Lidar=>CNN1D  
+#          
+#
+class CONV4_Net(torch.nn.Module):
+    def __init__(self, num_inputs, action_space):
+        super(CONV4_Net, self).__init__()
+        # nn.Conv1d(in_channels, out_channels, kernel_size, strid
+        # 10 lindar
+        self.dim2= 4 # num_inputs, stack_frame is 4 fixed
+        self.conv1 = nn.Conv1d(self.dim2, 32, 3, stride=1, padding=1)
+        self.lrelu1 = nn.LeakyReLU(0.1)
+        self.conv2 = nn.Conv1d(32, 32, 3, stride=1, padding=1)
+        self.lrelu2 = nn.LeakyReLU(0.1)
+        self.conv3 = nn.Conv1d(32, 64, 2, stride=1, padding=1)   # 1,64,11= 704
+        self.lrelu3 = nn.LeakyReLU(0.1)
+        ###self.conv4 = nn.Conv1d(64, 64, 1, stride=1)   # # 1,64,11= 704
+        self.conv4 = nn.Conv1d(64, 32, 1, stride=1)   # # 1,32,11= 352
+        self.lrelu4 = nn.LeakyReLU(0.1)
+        
+        #--- separate network for move etc
+        #   7->64->64
+        #   6->64->64
+        #   6->64->64
+        #   2->32->32
+        #
+        #   256->128
+        #
+        self.h4fc1 = nn.Linear(7, 64)
+        self.lrelu1 = nn.LeakyReLU(0.1) # negative_slope 0.1
+        self.h4fc2 = nn.Linear(64, 64)
+        self.lrelu2 = nn.LeakyReLU(0.1)
+        self.j01fc1 = nn.Linear(6, 64)
+        self.lrelu3 = nn.LeakyReLU(0.1)
+        self.j01fc2 = nn.Linear(64, 64)
+        self.lrelu4 = nn.LeakyReLU(0.1)
+        self.j23fc1 = nn.Linear(6, 64)
+        self.lrelu5 = nn.LeakyReLU(0.1)
+        self.j23fc2 = nn.Linear(64, 64)
+        self.lrelu6 = nn.LeakyReLU(0.1)
+        self.g02fc1 = nn.Linear(2,32)
+        self.lrelu7 = nn.LeakyReLU(0.1)
+        self.g02fc2 = nn.Linear(32, 32)
+        self.lrelu8 = nn.LeakyReLU(0.1)
+        self.fc3 = nn.Linear(224, 128)  # 224= 64+64+64+32
+        self.lrelu9 = nn.LeakyReLU(0.1)
+        
+        
+        #---
+        self.dim3= 128 + 352 ## 704
+        self.lstm1 = nn.LSTMCell(self.dim3, 128)
+        #---
+
+        num_outputs = action_space.shape[0]
+        self.critic_linear = nn.Linear(128, 1)
+        self.actor_linear = nn.Linear(128, num_outputs)
+        self.actor_linear2 = nn.Linear(128, num_outputs)
+        
+        self.apply(weights_init)
+        lrelu_gain = nn.init.calculate_gain('leaky_relu')
+        self.conv1.weight.data.mul_(lrelu_gain)
+        self.conv2.weight.data.mul_(lrelu_gain)
+        self.conv3.weight.data.mul_(lrelu_gain)
+        self.conv4.weight.data.mul_(lrelu_gain)
+        
+        
+        self.actor_linear.weight.data = norm_col_init(
+            self.actor_linear.weight.data, 0.01)
+        self.actor_linear.bias.data.fill_(0)
+        self.actor_linear2.weight.data = norm_col_init(
+            self.actor_linear2.weight.data, 0.01)
+        self.actor_linear2.bias.data.fill_(0)
+        self.critic_linear.weight.data = norm_col_init(
+            self.critic_linear.weight.data, 1.0)
+        self.critic_linear.bias.data.fill_(0)
+
+        self.apply(weights_init_mlp)
+        lrelu = nn.init.calculate_gain('leaky_relu')
+        self.h4fc1.weight.data.mul_(lrelu)
+        self.h4fc2.weight.data.mul_(lrelu)
+        self.j01fc1.weight.data.mul_(lrelu)
+        self.j01fc2.weight.data.mul_(lrelu)
+        self.j23fc1.weight.data.mul_(lrelu)
+        self.j23fc2.weight.data.mul_(lrelu)
+        self.g02fc1.weight.data.mul_(lrelu)
+        self.g02fc2.weight.data.mul_(lrelu)
+        self.fc3.weight.data.mul_(lrelu)
+        
+        #---
+        self.lstm1.bias_ih.data.fill_(0)
+        
+        self.train()
+        
+        
+    def forward(self, inputs):
+        x, (hx1, cx1) = inputs
+        
+        # hull(4) joint0/1(4) ground_contact(1) joint2/3(4) ground_contact(1) 
+        (h4,j01,g0,j23,g2,a2)=torch.split(x, [4,4,1,4,1,10],dim=2)
+        
+        x2 = self.lrelu1(self.conv1(a2))
+        x2 = self.lrelu2(self.conv2(x2))
+        x2 = self.lrelu3(self.conv3(x2))
+        x2 = self.lrelu4(self.conv4(x2))
+        x2 = x2.view(x2.size(0), -1)  # Auto Size Adjust like reshape
+        
+        #--------------------------------------------------------
+        h4b=h4.view(4,4)[-1]   # get last only
+        j01b=j01.view(4,4)[-1] # get last only
+        j23b=j23.view(4,4)[-1] # get last only
+        g02b=torch.cat([g0,g2],dim=2).view(4,2)[-1] # cat ground touch, get last only
+        
+        h4c=h4.view(4,4)[-2]   # get previous only
+        j01c=j01.view(4,4)[-2] # get previous only
+        j23c=j23.view(4,4)[-2] # get previous only
+        
+        # compute current - previous
+        h4bcsub=torch.sub(h4b,h4c)
+        j01bcsub=torch.sub(j01b,j01c)
+        j23bcsub=torch.sub(j23b,j23c)
+        
+        
+        h4bplus= torch.cat([h4b,h4bcsub[1:]],dim=0) # hull.angularVelocity/FPS, vel.x*(VIEWPORT_W/SCALE)/FPS, vel.y*(VIEWPORT_H/SCALE)/FPS
+        j01bplus= torch.cat([j01b, j01bcsub[1:2], j01bcsub[3:] ],dim=0) # joints[0].speed / SPEED_HIP, joints[1].speed / SPEED_KNEE,
+        j23bplus= torch.cat([j23b, j23bcsub[1:2], j23bcsub[3:] ],dim=0) # joints[2].speed / SPEED_HIP, joints[3].speed / SPEED_KNEE,
+        
+        
+        xh4 = self.lrelu1(self.h4fc1(h4bplus))
+        xh4 = self.lrelu2(self.h4fc2(xh4))
+        xj01= self.lrelu3(self.j01fc1(j01bplus))
+        xj01= self.lrelu4(self.j01fc2(xj01))
+        xj23= self.lrelu5(self.j23fc1(j23bplus))
+        xj23= self.lrelu6(self.j23fc2(xj23))
+        xg02= self.lrelu7(self.g02fc1(g02b))
+        xg02= self.lrelu8(self.g02fc2(xg02))
+        
+        xfc3 = torch.cat([xh4,xj01,xj23,xg02],dim=0)
+        xfc3= self.lrelu9(self.fc3(xfc3))
+        
+        x1 = xfc3.view(1, 128)
+        x = torch.cat([x1, x2],dim=1)
+        #x = x.view(1, self.dim3)  
+        hx1, cx1 = self.lstm1(x, (hx1, cx1))
+        x = hx1
+        
+        return self.critic_linear(x), F.softsign(self.actor_linear(x)), self.actor_linear2(x), (hx1, cx1)
+
 

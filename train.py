@@ -18,6 +18,7 @@
 Changed:
     Add CONV3_Net
     Add args.entropy, args.value
+    Add CONV4_Net
 """
 
 from __future__ import division
@@ -56,6 +57,8 @@ def train(rank, args, shared_model, optimizer):
         player.model = A3C_CONV(args.stack_frames, player.env.action_space)
     if args.model == 'CONV3':
         player.model = CONV3_Net(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV4':
+        player.model = CONV4_Net(args.stack_frames, player.env.action_space)
 
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
@@ -109,7 +112,7 @@ def train(rank, args, shared_model, optimizer):
             R = torch.zeros(1, 1)
         if not player.done:
             state = player.state
-            if args.model == 'CONV' or args.model == 'CONV3':
+            if args.model == 'CONV' or args.model == 'CONV3' or args.model == 'CONV4':
                 state = state.unsqueeze(0)
            
             # value is critic

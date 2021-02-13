@@ -17,6 +17,7 @@
 -----------------------------------------------------------------------------
 Changed:
         Add CONV3_Net
+        Add CONV4_Net
 
 """
 
@@ -48,7 +49,7 @@ class Agent(object):
         self.gpu_id = -1
 
     def action_train(self):
-        if self.args.model == 'CONV' or self.args.model == 'CONV3':
+        if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4':
             self.state = self.state.unsqueeze(0)
         # value: critic
         # mu: softsign liner out　action
@@ -126,7 +127,7 @@ class Agent(object):
             else:
                 self.cx = Variable(self.cx.data)
                 self.hx = Variable(self.hx.data)
-            if self.args.model == 'CONV' or self.args.model == 'CONV3':
+            if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4':
                 self.state = self.state.unsqueeze(0)  #### reshape(mini-batch,...) for picture input
             value, mu, sigma, (self.hx, self.cx) = self.model(
                 (Variable(self.state), (self.hx, self.cx)))

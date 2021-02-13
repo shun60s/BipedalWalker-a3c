@@ -18,6 +18,7 @@
 Changed:
     Add to use custom env
     Add CONV3_Net
+    Add CONV4_Net
 
 """
 from __future__ import division
@@ -133,6 +134,8 @@ if args.model == 'CONV':
     player.model = A3C_CONV(args.stack_frames, env.action_space)
 if args.model == 'CONV3':
     player.model = CONV3_Net(args.stack_frames, env.action_space)
+if args.model == 'CONV4':
+    player.model = CONV4_Net(args.stack_frames, env.action_space)
 
 player.gpu_id = gpu_id
 if gpu_id >= 0:
