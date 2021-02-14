@@ -10,7 +10,7 @@ observationを使わないで高得点を上げている例や１本立ち歩行
 LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
 2本足を交互に使って歩くと言う意味では、BipedalWalkerHardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使えば、障害物の環境がなくても、２本足を交互に使って歩くことができた。   
-更に、入力の特徴量として、加速度（前回と今回の速度の差）を追加したものがCONV4_Netである。  
+更に、入力の特徴量として、加速度（前回と今回の速度の差）を追加したCONV4_Netを使ってBipedalWalkerHardcore-v2も挑戦してみた。  
 
 
 ## 使い方  
@@ -65,6 +65,27 @@ python main.py --workers 6 --env BipedalWalkerStump1-v0 --save-max True --model 
 ```
 python main.py --workers 6 --env BipedalWalker-v2 --save-max True --save-last True --model CONV3 --stack-frames 4
 ```
+引数のsave-lastは、最新の重みを xxx_last.datとして毎回保存するためのものである。引数save-maxだと、最大値(>0とき)のときのみ重みを保存する仕様になっている。  
+  
+  
+
+加速度（前回と今回の速度の差）を追加したCON4_Netを使ったBipedalWalkerHardcore-v2の学習。  
+BipedalWalker-v2環境で歩くことをはじめに学習させて(5時間ぐらいかけた)、その重みを初期値としてBipedalWalkerHardcoreを学習させる。  
+```
+python main.py --workers 6 --env BipedalWalker-v2 --save-max True --save-last True --model CONV4 --stack-frames 4
+
+```
+出来上がったtrained_modelsの中のBipedalWalker-v2.datをBipedalWalkerHardcore-v2.datとして上書きして、BipedalWalkerHardcore環境で学習する。24時間ぐらいかけた。  
+```
+python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --load True  --save-max True  --save-last True --model CONV4 --stack-frames 4 --max-episode-length 4000
+```
+100回(num-episodes回)テストする。  
+```
+python gym_eval.py --env BipedalWalkerHardcore-v2 --num-episodes 100 --stack-frames 4 --model CONV4 --new-gym-eval True
+```
+  
+  
+
 
 ## 主な変更点  
 
@@ -114,8 +135,14 @@ BipedalWalkerStump1-v0.dat　stump切り株だけのカスタム環境を使っ�
 
 
 BipedalWalker-v2_CONV3_Net.dat　CONV3_Netで学習した重みファイル。障害物の環境がなくても、２本足を交互に使って歩くことができた。   
-BipedalWalker-v2_CONV4_Net.dat　CONV3_Netの入力に加速度（前回と今回の速度の差）を追加したも。  
-
+  
+  
+  
+BipedalWalker-v2_CONV4_Net.dat　CONV4_NetはCONV3_Netの入力に加速度（前回と今回の速度の差）を追加したも。  
+BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcoreの重みファイル。100回平均で210ポイント。stump切り株状の障害物を超えられるか、超えても安定に着地できるかが問題になる。動作はなかなか安定しない。  
+![BipedalWalkerHardcore-v2_trained_using_CONV4_Net  mp4 sample](https://user-images.githubusercontent.com/36104188/107871846-94a15080-6ee8-11eb-98fc-c3ee425c2d1b.mp4)  
+  
+  
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
 
 
