@@ -24,3 +24,8 @@ register(
     id='BipedalWalkerStairs1-v0',
     entry_point='custom_env.bipedal_walker_stairs1:BipedalWalkerHardcoreEdit2'
 )
+
+register(
+    id='BipedalWalkerHardcoreStump1-v0',
+    entry_point='custom_env.bipedal_walker_hardcore_stump1:BipedalWalkerHardcoreEdit2'
+)

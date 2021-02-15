@@ -143,6 +143,9 @@ BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcor
 ![BipedalWalkerHardcore-v2_trained_using_CONV4_Net  mp4 sample](https://user-images.githubusercontent.com/36104188/107871846-94a15080-6ee8-11eb-98fc-c3ee425c2d1b.mp4)  
   
   
+切り株状の障害物が発生する度合いを増やしたカスタム環境を使って、更に重みを学習させてみたが、改善にはつながらなかった。  
+  
+  
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
 
 
