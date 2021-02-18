@@ -85,6 +85,10 @@ python gym_eval.py --env BipedalWalkerHardcore-v2 --num-episodes 100 --stack-fra
 ```
   
   
+BipedalWalkerHardcore-v2_CONV4_Net.datの重みデータを初期値(initweight)としてCONV5_Netを学習する。  
+```
+python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --initweight True  --save-max True  --save-last True --model CONV5 --stack-frames 4 --max-episode-length 4000
+```
 
 
 ## 主な変更点  
@@ -146,6 +150,10 @@ BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcor
 切り株状の障害物が発生する度合いを増やしたカスタム環境を使って、更に重みを学習させてみたが、改善にはつながらなかった。  
   
   
+ 
+BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したも。  
+  
+    
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
 
 
