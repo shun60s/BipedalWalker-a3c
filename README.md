@@ -89,8 +89,10 @@ BipedalWalkerHardcore-v2_CONV4_Net.datの重みデータを初期値(initweight)
 ```
 python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --initweight True  --save-max True  --save-last True --model CONV5 --stack-frames 4 --max-episode-length 4000
 ```
-
-
+学習過程でREWARD値が大きく蛇行して安定しない。試しに、ワーカーの数（マルチプロセスの数）を--workers 100に増やしてみた。  
+  
+  
+  
 ## 主な変更点  
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
@@ -151,7 +153,7 @@ BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcor
   
   
  
-BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したも。  
+BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したも。CONV4_Netの方が結果はよかった。  
   
     
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
