@@ -20,6 +20,8 @@ Changed:
        Add args.save last
        Add CONV3_Net
        Add CONV4_Net
+       Add CONV5_Net
+       Add CONV6_Net
 """
 
 from __future__ import division
@@ -36,7 +38,7 @@ import logging
 import gym
 
 
-def test(args, shared_model):
+def test(args, shared_model, optimizer):  # change
     ptitle('Test Agent')
     gpu_id = args.gpu_ids[-1]
     log = {}
@@ -67,6 +69,10 @@ def test(args, shared_model):
         player.model = CONV3_Net(args.stack_frames, player.env.action_space)
     if args.model == 'CONV4':
         player.model = CONV4_Net(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV5':
+        player.model = CONV5_Net(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV6':
+        player.model = CONV6_Net(args.stack_frames, player.env.action_space)
 
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
@@ -118,7 +124,7 @@ def test(args, shared_model):
                     state_to_save = player.model.state_dict()
                     torch.save(state_to_save, '{0}{1}.dat'.format(args.save_model_dir, args.env))
             
-            # add save last 
+            # add save last model dict
             if args.save_last:
                 if gpu_id >= 0:
                     with torch.cuda.device(gpu_id):
@@ -128,7 +134,16 @@ def test(args, shared_model):
                     state_to_save = player.model.state_dict()
                     torch.save(state_to_save, '{0}{1}_last.dat'.format(args.save_model_dir, args.env))
 
-
+            # add save last optimizer dict
+            if args.save_last:
+                if gpu_id >= 0:
+                    with torch.cuda.device(gpu_id):
+                        state_to_save = optimizer.state_dict()
+                        torch.save(state_to_save, '{0}{1}_last_opt.dat'.format(args.save_model_dir, args.env))
+                else:
+                    state_to_save = optimizer.state_dict()
+                    torch.save(state_to_save, '{0}{1}_last_opt.dat'.format(args.save_model_dir, args.env))
+    
 
             reward_sum = 0
             player.eps_len = 0

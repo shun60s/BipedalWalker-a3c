@@ -134,8 +134,8 @@ class SharedAdam(optim.Optimizer):
                                weight_decay=weight_decay, amsgrad=amsgrad)
         super(SharedAdam, self).__init__(params, defaults)
 
-        for group in self.param_groups:
-            for p in group['params']:
+        for group in self.param_groups:  # whole network parameters
+            for p in group['params']:    # per every parameter
                 state = self.state[p]
                 state['step'] = torch.zeros(1)
                 state['exp_avg'] = p.data.new().resize_as_(p.data).zero_()
@@ -143,7 +143,7 @@ class SharedAdam(optim.Optimizer):
                 state['max_exp_avg_sq'] = p.data.new(
                 ).resize_as_(p.data).zero_()
 
-    def share_memory(self):
+    def share_memory(self):  # for multiprocessing
         for group in self.param_groups:
             for p in group['params']:
                 state = self.state[p]
@@ -162,9 +162,9 @@ class SharedAdam(optim.Optimizer):
         if closure is not None:
             loss = closure()
 
-        for group in self.param_groups:
-            for p in group['params']:
-                if p.grad is None:
+        for group in self.param_groups:  # whole network parameters
+            for p in group['params']:    # per every parameter
+                if p.grad is None:       # if p.grad, skip
                     continue
                 grad = p.grad.data
                 if grad.is_sparse:
@@ -174,12 +174,12 @@ class SharedAdam(optim.Optimizer):
 
                 state = self.state[p]
 
-                exp_avg, exp_avg_sq = state['exp_avg'], state['exp_avg_sq']
+                exp_avg, exp_avg_sq = state['exp_avg'], state['exp_avg_sq']  # get from shared state
                 if amsgrad:
                     max_exp_avg_sq = state['max_exp_avg_sq']
                 beta1, beta2 = group['betas']
 
-                state['step'] += 1
+                state['step'] += 1  # step increase
 
                 if group['weight_decay'] != 0:
                     grad = grad.add(group['weight_decay'], p.data)

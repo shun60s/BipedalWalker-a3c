@@ -20,6 +20,9 @@ Changed:
     Add args.entropy, args.value
     Add CONV3_Net
     Add CONV4_Net
+    Add CONV5_Net
+    Add args.last_load
+    Add CONV6_Net
 """
 
 
@@ -96,6 +99,11 @@ parser.add_argument(
     metavar='L',
     help='load a trained model')
 parser.add_argument(
+    '--load-last',
+    default=False,
+    metavar='LL',
+    help='load model dict and optimizer dicts when shared_optimizer.')
+parser.add_argument(
     '--save-max',
     default=True,
     metavar='SM',
@@ -159,6 +167,11 @@ parser.add_argument(
     default=0.5,
     metavar='VA',
     help='value rate in Loss function (default: 0.5)')
+parser.add_argument(
+    '--initweight',
+    default=False,
+    metavar='IW',
+    help='initialize CONV5 weights using previous CONV4 dat')
 
 # Based on
 # https://github.com/pytorch/examples/tree/master/mnist_hogwild
@@ -184,11 +197,67 @@ if __name__ == '__main__':
         shared_model = CONV3_Net(args.stack_frames, env.action_space)
     if args.model == 'CONV4':
         shared_model = CONV4_Net(args.stack_frames, env.action_space)
+    if args.model == 'CONV5':
+        shared_model = CONV5_Net(args.stack_frames, env.action_space)
+    if args.model == 'CONV6':
+        shared_model = CONV6_Net(args.stack_frames, env.action_space)
 
     if args.load:
         saved_state = torch.load('{0}{1}.dat'.format(
             args.load_model_dir, args.env), map_location=lambda storage, loc: storage)
         shared_model.load_state_dict(saved_state)
+    
+    # choice one of args.load or args.load_last
+    if args.load_last:
+        saved_state = torch.load('{0}{1}_last.dat'.format(
+            args.load_model_dir, args.env), map_location=lambda storage, loc: storage)
+        shared_model.load_state_dict(saved_state)
+
+    #----
+    # for initialize CONV5 weights using previous CONV4 dat
+    if args.initweight:
+        param1 = torch.load('trained_models/BipedalWalkerHardcore-v2_CONV4_Net.dat')
+        param2 = shared_model.state_dict()
+        param2['h4fc1.weight'] = param1['h4fc1.weight']
+        param2['h4fc2.weight'] = param1['h4fc2.weight']
+        param2['j01fc1.weight'] = param1['j01fc1.weight']
+        param2['j01fc2.weight'] = param1['j01fc2.weight']
+        param2['j23fc1.weight'] = param1['j23fc1.weight']
+        param2['j23fc2.weight'] = param1['j23fc2.weight']
+        param2['g02fc1.weight'] = param1['g02fc1.weight']
+        param2['g02fc2.weight'] = param1['g02fc2.weight']
+        param2['fc3.weight'] = param1['fc3.weight']
+        #param2['alfc1.weight'] = param1['alfc1.weight']
+        #param2['alfc2.weight'] = param1['alfc2.weight']
+        param2['critic_linear.weight'] = param1['critic_linear.weight']
+        param2['actor_linear.weight'] = param1['actor_linear.weight']
+        param2['actor_linear2.weight'] = param1['actor_linear2.weight']
+     
+        param2['conv1.weight'] = param1['conv1.weight']
+        param2['conv2.weight'] = param1['conv2.weight']
+        param2['conv3.weight'] = param1['conv3.weight']
+        param2['conv4.weight'] = param1['conv4.weight']
+    
+        param2['h4fc1.bias'] = param1['h4fc1.bias']
+        param2['h4fc2.bias'] = param1['h4fc2.bias']
+        param2['j01fc1.bias'] = param1['j01fc1.bias']
+        param2['j01fc2.bias'] = param1['j01fc2.bias']
+        param2['j23fc1.bias'] = param1['j23fc1.bias']
+        param2['j23fc2.bias'] = param1['j23fc2.bias']
+        param2['g02fc1.bias'] = param1['g02fc1.bias']
+        param2['g02fc2.bias'] = param1['g02fc2.bias']
+        param2['fc3.bias'] = param1['fc3.bias']
+        #param2['alfc1.bias'] = param1['alfc1.bias']
+        #param2['alfc2.bias'] = param1['alfc2.bias']           
+        param2['critic_linear.bias'] = param1['critic_linear.bias']
+        param2['actor_linear.bias'] = param1['actor_linear.bias']
+        param2['actor_linear2.bias'] = param1['actor_linear2.bias']
+        shared_model.load_state_dict(param2)
+        
+        print ('init weights...')
+    #----
+
+
     shared_model.share_memory()
 
     if args.shared_optimizer:
@@ -197,6 +266,12 @@ if __name__ == '__main__':
         if args.optimizer == 'Adam':
             optimizer = SharedAdam(
                 shared_model.parameters(), lr=args.lr, amsgrad=args.amsgrad)
+
+        if args.load_last:
+            saved_state = torch.load('{0}{1}_last_opt.dat'.format(
+                args.load_model_dir, args.env), map_location=lambda storage, loc: storage)
+            optimizer.load_state_dict(saved_state)
+
         optimizer.share_memory()
     else:
         optimizer = None
@@ -204,7 +279,7 @@ if __name__ == '__main__':
     processes = []
 
     # testを起動　これが定期的に結果を表示してMAX SAVEする
-    p = mp.Process(target=test, args=(args, shared_model))
+    p = mp.Process(target=test, args=(args, shared_model, optimizer)) # change
     p.start()
     processes.append(p)
     time.sleep(0.1)

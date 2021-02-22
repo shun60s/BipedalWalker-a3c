@@ -18,6 +18,8 @@
 Changed:
         Add CONV3_Net
         Add CONV4_Net
+        Add CONV5_Net
+        Add CONV6_Net
 
 """
 
@@ -37,6 +39,9 @@ class Agent(object):
         self.state = state
         self.hx = None
         self.cx = None
+        self.hx2 = None  # add
+        self.cx2 = None  # add
+        self.fx1 = None  # add
         self.eps_len = 0
         self.args = args
         self.values = []
@@ -49,15 +54,22 @@ class Agent(object):
         self.gpu_id = -1
 
     def action_train(self):
-        if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4':
+        if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4' or self.args.model == 'CONV5' or self.args.model == 'CONV6' :
             self.state = self.state.unsqueeze(0)
         # value: critic
         # mu: softsign liner out　action
         # sigma: liner out action
         # hx lstm
         # cx lstm
-        value, mu, sigma, (self.hx, self.cx) = self.model(
-            (Variable(self.state), (self.hx, self.cx)))
+        if self.args.model == 'CONV5' :
+            value, mu, sigma, (self.hx, self.cx, self.fx1) = self.model(
+                (Variable(self.state), (self.hx, self.cx, self.fx1)))
+        elif self.args.model == 'CONV6' :
+            value, mu, sigma, (self.hx, self.cx, self.hx2, self.cx2) = self.model(
+                (Variable(self.state), (self.hx, self.cx, self.hx2, self.cx2)))
+        else:
+            value, mu, sigma, (self.hx, self.cx) = self.model(
+                (Variable(self.state), (self.hx, self.cx)))
         mu = torch.clamp(mu, -1.0, 1.0)
         # SoftPlus is a smooth approximation to the ReLU function and can be used to constrain the output of a machine 
         # to always be positive.
@@ -121,16 +133,44 @@ class Agent(object):
                             1, 128).cuda())
                         self.hx = Variable(torch.zeros(
                             1, 128).cuda())
+                        if self.args.model == 'CONV5':
+                            self.fx1 = Variable(torch.zeros(
+                                4).cuda())  
+                        elif self.args.model == 'CONV6':
+                            self.cx2 = Variable(torch.zeros(
+                                1,128).cuda()) 
+                            self.hx2 = Variable(torch.zeros(
+                                1,128).cuda())                     
                 else:
                     self.cx = Variable(torch.zeros(1, 128))
                     self.hx = Variable(torch.zeros(1, 128))
+                    if self.args.model == 'CONV5':
+                        self.fx1 = Variable(torch.zeros(4))
+                    elif self.args.model == 'CONV6':
+                        self.cx2 = Variable(torch.zeros(1, 128))
+                        self.hx2 = Variable(torch.zeros(1, 128))
+
             else:
                 self.cx = Variable(self.cx.data)
                 self.hx = Variable(self.hx.data)
-            if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4':
+                if self.args.model == 'CONV5':
+                    self.fx1 = Variable(self.fx1.data)
+                elif self.args.model == 'CONV6':
+                    self.cx2 = Variable(self.cx2.data)
+                    self.hx2 = Variable(self.hx2.data)
+
+            if self.args.model == 'CONV' or self.args.model == 'CONV3' or self.args.model == 'CONV4' or self.args.model == 'CONV5' or self.args.model == 'CONV6':
                 self.state = self.state.unsqueeze(0)  #### reshape(mini-batch,...) for picture input
-            value, mu, sigma, (self.hx, self.cx) = self.model(
-                (Variable(self.state), (self.hx, self.cx)))
+
+            if self.args.model == 'CONV5':
+                value, mu, sigma, (self.hx, self.cx, self.fx1) = self.model(
+                    (Variable(self.state), (self.hx, self.cx, self.fx1)))
+            elif self.args.model == 'CONV6':
+                value, mu, sigma, (self.hx, self.cx, self.hx2, self.cx2) = self.model(
+                    (Variable(self.state), (self.hx, self.cx, self.hx2, self.cx2)))
+            else:
+                value, mu, sigma, (self.hx, self.cx) = self.model(
+                    (Variable(self.state), (self.hx, self.cx)))
 
         #Clamp all elements in input into the range [ min, max ] and return a resulting tensor:
         mu = torch.clamp(mu.data, -1.0, 1.0)

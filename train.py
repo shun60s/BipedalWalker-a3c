@@ -19,6 +19,8 @@ Changed:
     Add CONV3_Net
     Add args.entropy, args.value
     Add CONV4_Net
+    Add CONV5_Net
+    Add CONV6_Net
 """
 
 from __future__ import division
@@ -59,6 +61,10 @@ def train(rank, args, shared_model, optimizer):
         player.model = CONV3_Net(args.stack_frames, player.env.action_space)
     if args.model == 'CONV4':
         player.model = CONV4_Net(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV5':
+        player.model = CONV5_Net(args.stack_frames, player.env.action_space)
+    if args.model == 'CONV6':
+        player.model = CONV6_Net(args.stack_frames, player.env.action_space)
 
     player.state = player.env.reset()
     player.state = torch.from_numpy(player.state).float()
@@ -83,13 +89,30 @@ def train(rank, args, shared_model, optimizer):
                 with torch.cuda.device(gpu_id):
                     player.cx = Variable(torch.zeros(1, 128).cuda())
                     player.hx = Variable(torch.zeros(1, 128).cuda())
+                    if args.model == 'CONV5':
+                        player.fx1 = Variable(torch.zeros(4).cuda())
+                    elif args.model == 'CONV6':
+                        player.cx2 = Variable(torch.zeros(1, 128).cuda())
+                        player.hx2 = Variable(torch.zeros(1, 128).cuda())
+
             else:
                 player.cx = Variable(torch.zeros(1, 128))
                 player.hx = Variable(torch.zeros(1, 128))
+                if args.model == 'CONV5':
+                    player.fx1 = Variable(torch.zeros(4))
+                elif args.model == 'CONV6':
+                    player.cx2 = Variable(torch.zeros(1, 128))
+                    player.hx2 = Variable(torch.zeros(1, 128))
+
         else:
             player.cx = Variable(player.cx.data)
             player.hx = Variable(player.hx.data)
-            
+            if args.model == 'CONV5':
+                player.fx1 = Variable(player.fx1.data)
+            elif args.model == 'CONV6':
+                player.cx2 = Variable(player.cx2.data)
+                player.hx2 = Variable(player.hx2.data)
+           
         for step in range(args.num_steps):
 
             player.action_train()  # call action_train
@@ -112,12 +135,19 @@ def train(rank, args, shared_model, optimizer):
             R = torch.zeros(1, 1)
         if not player.done:
             state = player.state
-            if args.model == 'CONV' or args.model == 'CONV3' or args.model == 'CONV4':
+            if args.model == 'CONV' or args.model == 'CONV3' or args.model == 'CONV4' or args.model == 'CONV5' or args.model == 'CONV6':
                 state = state.unsqueeze(0)
            
             # value is critic
-            value, _, _, _ = player.model(
-                (Variable(state), (player.hx, player.cx)))
+            if args.model == 'CONV5':
+                value, _, _, _ = player.model(
+                    (Variable(state), (player.hx, player.cx, player.fx1)))
+            elif args.model == 'CONV6':
+                value, _, _, _ = player.model(
+                    (Variable(state), (player.hx, player.cx, player.hx2, player.cx2)))
+            else:
+                value, _, _, _ = player.model(
+                    (Variable(state), (player.hx, player.cx)))
             R = value.data
 
         player.values.append(Variable(R))
