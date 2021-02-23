@@ -93,6 +93,11 @@ python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --init
   
   
   
+CONV6も、BipedalWalker-v2環境で歩くことをはじめに学習させて(数時間ぐらいかけた)、その重みを初期値としてBipedalWalkerHardcoreを学習させる。  
+```
+python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --load True  --save-max True  --save-last True --model CONV6 --stack-frames 4 --max-episode-length 4000
+```
+  
 ## 主な変更点  
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
@@ -131,7 +136,7 @@ CPUのみ。
 BipedalWalker-v2.dat　オリジナルの設定で学習した重みファイル  
 BipedalWalker-v2_withoutLSTM.dat　LSTMのないMLPで学習した重みファイル  
 BipedalWalker-v2_stackframe2.dat　stack_frame=2で学習した重みファイル  
-BipedalWalkerHardcore-v2.dat　オリジナルからcloneした重みファイル  
+BipedalWalkerHardcore-v2.dat　オリジナルのa3c_continuousからcloneした重みファイル  
 BipedalWalker-v2_trained_using_Hardcore_dat.dat 上記のBipedalWalkerHardcoreのモデルを、更にBipedalWalker環境で学習させたもの。これが2本足を交互に使って走るという意味では、これが一番、良かった。  
 ![BipedalWalker-v2_trained_using_Hardcore_dat  mp4 sample](https://user-images.githubusercontent.com/36104188/104119919-48597280-5376-11eb-8ed5-e77576a5ad12.mp4)  
 
@@ -153,7 +158,10 @@ BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcor
   
   
  
-BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したも。CONV4_Netの方が結果はよかった。  
+BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したもの。CONV4_Netの方が結果はよかった。  
+  
+  
+BipedalWalkerHardcore-v2_CONV6_Net.dat CONV6_NetはCONV4_NetのLidar(ライダー)用のCONVネットの出力にLSTMを追加したもの。  
   
     
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
@@ -164,6 +172,6 @@ BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した�
 
 ## ライセンス  
 Apache License 2.0  
-オリジナルのライセンス文 LICENSE_ac3_continous.MD を参照のこと。   
-カスタム環境についてはライセンス文 custom_env/LICENSE-OpenAI_gym.md を参照のこと。   
+オリジナルのa3c_continuousのライセンス文 LICENSE_ac3_continous.MD を参照のこと。   
+カスタム環境についてはOpenAI gymのライセンス文 custom_env/LICENSE-OpenAI_gym.md を参照のこと。   
 
