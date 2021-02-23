@@ -15,12 +15,12 @@ LSTMの有無含め、どのような歩き方になるかを見てみること�
 
 ## 使い方  
 
-オリジナルの説明文 README_a3c_continous.md を参照のこと。   
+オリジナルのa3c_continuousの説明文 README_a3c_continous.md を参照のこと。   
 自動で終了しないので、画面のLOG出力を見ながら適当なところでctrl-Cキーで強制終了させる。  
 
 
 
-オリジナルの設定のBipedalWalker-v2を学習する。　数時間ぐらいかけた。  
+オリジナルのa3c_continuousの設定のBipedalWalker-v2を学習する。　数時間ぐらいかけた。  
 ```
 python main.py --workers 6 --env BipedalWalker-v2 --save-max True --model MLP --stack-frames 1
 ```
@@ -161,7 +161,7 @@ BipedalWalkerHardcore-v2_CONV4_Net.dat CONV4_Netを使ったBipedalWalkerHardcor
 BipedalWalkerHardcore-v2_CONV5_Net.dat  CONV5_NetはCONV4_Netの入力にaction（前回の計算結果の出力）を追加したもの。CONV4_Netの方が結果はよかった。  
   
   
-BipedalWalkerHardcore-v2_CONV6_Net.dat CONV6_NetはCONV4_NetのLidar(ライダー)用のCONVネットの出力にLSTMを追加したもの。  
+CONV6_NetはCONV4_NetのLidar(ライダー)用のCONVネットの出力にLSTMを追加したもの。  
   
     
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
