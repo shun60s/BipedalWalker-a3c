@@ -90,8 +90,10 @@ BipedalWalkerHardcore-v2_CONV4_Net.datの重みデータを初期値(initweight)
 python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --initweight True  --save-max True  --save-last True --model CONV5 --stack-frames 4 --max-episode-length 4000
 ```
 学習過程でREWARD値が大きく蛇行して安定しない。試しに、ワーカーの数（マルチプロセスの数）を--workers 100に増やしてみた。  
-  
-  
+多くCPUが使える環境で、多くのワーカーを使うことで、学習時間の短縮（スピードアップ）することにアドバンテージがあるようだ。[参考文献5.5. Scalability and Data Efficiency](https://arxiv.org/abs/1602.01783)  
+
+
+
   
 CONV6も、BipedalWalker-v2環境で歩くことをはじめに学習させて(数時間ぐらいかけた)、その重みを初期値としてBipedalWalkerHardcoreを学習させる。延べ50時間ぐらいかけた。  
 ```
