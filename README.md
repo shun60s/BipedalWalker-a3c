@@ -10,7 +10,7 @@ observationを使わないで高得点を上げている例や１本立ち歩行
 LSTMの有無含め、どのような歩き方になるかを見てみることにしたもの。  
 2本足を交互に使って歩くと言う意味では、BipedalWalkerHardcoreのモデルをBipedalWalker用に再学習したものが、一番良かった。  
 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを使えば、障害物の環境がなくても、２本足を交互に使って歩くことができた。   
-更に、入力の特徴量として、加速度（前回と今回の速度の差）を追加したCONV4_NetとLidar(ライダー)用のCONVネットの出力にLSTMを追加したCONV6_Netを使って、BipedalWalkerHardcore-v2も挑戦してみた。  
+更に、入力の特徴量として、加速度（前回と今回の速度の差）を追加したCONV4_NetとLidar(ライダー)用のCONVネットの出力にLSTMを追加したCONV6_Netを使って、BipedalWalkerHardcore-v2も挑戦してみた。更に、BipedalWalkerHardcoreと切り株が発生しやすいカスタム環境(BipedalWalkerStump1)の２つを混合して学習することによりポイントを向上させた。  
 
 
 ## 使い方  
@@ -100,13 +100,22 @@ CONV6も、BipedalWalker-v2環境で歩くことをはじめに学習させて(�
 python main.py --workers 24 --env BipedalWalkerHardcore-v2   --lr 0.00005 --load True  --save-max True  --save-last True --model CONV6 --stack-frames 4 --max-episode-length 4000
 ```
   
+
+
+BipedalWalkerHardcore-v2のCONV6の重みを初期値として、2種類の環境 BipedalWalkerHardcoreとカスタム環境BipedalWalkerHardcoreStump1を混合して学習させる。21時間ぐらいかけた。  
+```
+python main2.py --workers 20 --workers2 4 --env BipedalWalkerHardcore-v2 --env2 BipedalWalkerHardcoreStump1-v0  --lr 0.00005 --load True  --save-max True  --save-last True --model CONV6 --stack-frames 4 --max-episode-length 4000
+```
+
+  
 ## 主な変更点  
 
 - model.pyの中にLSTMのないMLPで学習する設定を追加。  
 - test.py 更新した重みファイルを保存する時のメッセージstate_to_saveを追加。  
 - shared_optim.py UserWarning: This overload of add_, addcmul_, addcdiv_の対策で引数の順番を変更。  
 - custom_env  Hardcoreの中で、stump切り株だけ、pit落とし穴だけ、stairs階段だけ、のカスタム環境。  
-- model.py 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを追加。CONV3_Netの入力に加速度（前回と今回の速度の差）を追加したCONV4_Net。  
+- model.py 胴体動き、2本の足のそれぞれの動き、足の着地条件、そして、Lidar ライダー（奥行き距離検出器）を分離して入力し、順次合体していくモデルCONV3_Netを追加。CONV3_Netの入力に加速度（前回と今回の速度の差）を追加したCONV4_Net。Lidar用のCONVネットの出力にLSTMを追加したCONV6_Net。  
+- main2.py 2種類の環境(BipedalWalkerHardcoreとカスタム環境のBipedalWalkerHardcoreStump1)を混合して学習するもの。  
 
 
 
@@ -170,7 +179,7 @@ BipedalWalkerHardcore-v2_CONV6_Net.dat CONV6_NetはCONV4_NetのLidar(ライダ�
 ![figure1](training_curve.png)  
   
   
-  
+BipedalWalkerHardcore-v2_CONV6_Net_mix_trained.dat CONV6_NetをBipedalWalkerHardcoreと切り株が発生しやすいカスタム環境(BipedalWalkerStump1)の２つを混合して学習することによりポイントを向上させたもの。299ポイント。  
 
 
 
