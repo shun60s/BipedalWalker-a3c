@@ -21,6 +21,7 @@ Changed:
     Add CONV4_Net
     Add CONV5_Net
     Add CONV6_Net
+    Add second environment and its worker
 """
 
 from __future__ import division
@@ -42,7 +43,14 @@ def train(rank, args, shared_model, optimizer):
     torch.manual_seed(args.seed + rank)
     if gpu_id >= 0:
         torch.cuda.manual_seed(args.seed + rank)
-    env = create_env(args.env, args)
+
+    # add second environment
+    if rank >= args.workers:
+        print ('training agent of second environment', rank)
+        env = create_env(args.env2, args)
+    else:
+        env = create_env(args.env, args)
+    
     if optimizer is None:
         if args.optimizer == 'RMSprop':
             optimizer = optim.RMSprop(shared_model.parameters(), lr=args.lr)
