@@ -139,7 +139,7 @@ CPUのみ。
 
 
 また、Google colab上で実行するスクリプトを作ってみた。  
-[BipedalWalker_v2_Colab.ipynb](https://colab.research.google.com/github/shun60s/BipedalWalker-a3c_continuous-clone/blob/master/BipedalWalker_v2_Colab.ipynb)  
+[BipedalWalker_v2_Colab.ipynb](https://colab.research.google.com/github/shun60s/BipedalWalker-a3c/blob/master/BipedalWalker_v2_Colab.ipynb)  
 
 
 ### trained_models   
