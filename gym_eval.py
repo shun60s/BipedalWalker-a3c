@@ -151,6 +151,15 @@ if args.new_gym_eval:
     player.env = gym.wrappers.Monitor(
         player.env, "{}_monitor".format(args.env), force=True)
 
+#-if output mp4 every episode.
+#
+#if args.new_gym_eval:
+#    player.env = gym.wrappers.Monitor(
+#        player.env, "{}_monitor".format(args.env), force=True, video_callable=(lambda ep: ep % 1 == 0))
+#
+# -force (bool): Clear out existing training data from this directory
+
+
 if gpu_id >= 0:
     with torch.cuda.device(gpu_id):
         player.model.load_state_dict(saved_state)
