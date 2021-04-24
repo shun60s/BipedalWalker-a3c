@@ -107,6 +107,14 @@ BipedalWalkerHardcore-v2のCONV6の重みを初期値として、2種類の環�
 python main2.py --workers 20 --workers2 4 --env BipedalWalkerHardcore-v2 --env2 BipedalWalkerHardcoreStump1-v0  --lr 0.00005 --load True  --save-max True  --save-last True --model CONV6 --stack-frames 4 --max-episode-length 4000
 ```
 
+
+
+逆に、切り株が発生しやすい環境であるBipedalWalkerHardcoreStump1向けに学習するためには、引数の環境を入れ替える。  
+```
+python main2.py --workers 20 --workers2 4 --env BipedalWalkerHardcoreStump1-v0 --env2 BipedalWalkerHardcore-v2 --lr 0.00005 --load True  --save-max True  --save-last True --model CONV6 --stack-frames 4 --max-episode-length 4000
+```
+
+
   
 ## 主な変更点  
 
@@ -179,8 +187,10 @@ BipedalWalkerHardcore-v2_CONV6_Net.dat CONV6_NetはCONV4_NetのLidar(ライダ�
 ![figure1](training_curve.png)  
   
   
-BipedalWalkerHardcore-v2_CONV6_Net_mix_trained.dat CONV6_NetをBipedalWalkerHardcoreと切り株が発生しやすいカスタム環境(BipedalWalkerStump1)の２つを混合して学習することによりポイントを向上させたもの。299ポイント。  
+BipedalWalkerHardcore-v2_CONV6_Net_mix_trained.dat CONV6_NetをBipedalWalkerHardcoreと切り株が発生しやすいカスタム環境(BipedalWalkerHardcoreStump1)の２つを混合して学習することによりポイントを向上させたもの。299ポイント。  
 
+
+BipedalWalkerHardcoreStump1-v0_CONV6_Net_mix_trained.dat 切り株が発生しやすいカスタム環境(BipedalWalkerStump1)向けに混合学習したもの。  
 
 
 BipedalWalker-v2_monitor_xxxの中に　歩き方の画像をmp4で格納した。  
